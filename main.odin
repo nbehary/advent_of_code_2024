@@ -8,9 +8,31 @@ import "core:slice"
 
 
 main :: proc(){
-	read_input("input.txt")
+	//read_input_lines("day1_test.txt")
+	day2_part_2()
 
 
+}
+
+read_input_lines :: proc(filepath: string)-> [dynamic][dynamic]int{
+	data, ok := os.read_entire_file(filepath, context.allocator)
+	if !ok {
+		return nil
+	}
+	defer delete(data, context.allocator)
+
+	it := string(data)
+	lines: [dynamic][dynamic]int
+
+	for line in strings.split_lines_iterator(&it){
+		split := strings.split(line, " ")
+		ints: [dynamic]int
+		for num_str in split{
+			append(&ints, strconv.atoi(num_str) )
+		}
+		append(&lines, ints)
+	}
+	return lines
 }
 
 
