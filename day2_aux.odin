@@ -9,22 +9,33 @@ check_line :: proc(line:[dynamic]int, descending:bool, count:int) -> bool {
 	}
 	is_safe := true
 	for i in 1..<len(line)-1{
+		orig := line
 		diff := abs(line[i] - line[i+1])
 		if descending{
 			if (line[i] > line[i+1]) && (diff <=3){
 			} else {
-				is_safe = false
+				ordered_remove(&orig,0)
+				is_safe = check_line(orig, descending,count+1)
+				orig := line
+				ordered_remove(&orig,1)
+				is_safe = check_line(orig, descending,count+1)
 			}
 		} else {
 			if (line[i] < line[i+1]) && (diff <=3){
 			} else {
-				is_safe = false
+				ordered_remove(&orig,0)
+				is_safe = check_line(orig, descending,count+1)
+				orig := line
+				ordered_remove(&orig,1)
+				is_safe = check_line(orig, descending,count+1)
 			}
 		}
 	}
 
 	return is_safe 
 }
+
+check_sequential :: proc(line:[dynamic]int, descending:bool) -> bool{return false}
 
 remove_same :: proc(line:[dynamic]int) -> ([dynamic]int, bool) {
 	the_map := make(map[int]int)
@@ -38,8 +49,9 @@ remove_same :: proc(line:[dynamic]int) -> ([dynamic]int, bool) {
 			append(&the_array, val)
 		} else if the_map[val] >1 {
 			multiples = true
+		}
 	}
-	return (the_array, multiples
+	return the_array, multiples
 
 }
 

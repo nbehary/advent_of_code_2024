@@ -9,7 +9,6 @@ day2_part_2 :: proc(){
 	lines := read_input_lines("day2.txt")
 	safe_cnt := 0
 	for the_line in lines{
-		is_safe := true
 		line, is_safe := remove_same(the_line)
 		descending := false
 		if line[0] > line[1]{
